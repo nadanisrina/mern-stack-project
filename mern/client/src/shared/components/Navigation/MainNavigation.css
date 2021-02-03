@@ -27,6 +27,7 @@
 }
 
 .main-navigation__header-nav {
+  margin: 0 2rem;
   display: none;
 }
 

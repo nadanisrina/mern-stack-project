@@ -11,6 +11,7 @@
 }
 
 .nav-links li {
+  padding: 5px 10px;
   margin: 1rem;
 }
 
@@ -22,8 +23,9 @@
 }
 
 .nav-links a:hover,
-.nav-links a:active,
 .nav-links a.active {
+  border-radius: 15px;
+  padding: 5px 10px;
   background: #f8df00;
   border-color: #292929;
   color: #292929;
@@ -37,14 +39,13 @@
   padding: 0.5rem;
   font: inherit;
 }
-
-.nav-links button:focus {
+/* 
+/* .nav-links button:focus {
   outline: none;
-}
-
-.nav-links button:hover,
+} */
+*/ .nav-links button:hover,
 .nav-links button:active {
-  background: #292929;
+  background: #f8df00;
   color: white;
 }
 

@@ -14,7 +14,7 @@ const MainNavigation = (props) => {
       {drawerIsOpen && (
         <React.Fragment>
           <Backdrop setDrawerIsOpen={() => setDrawerIsOpen(!drawerIsOpen)} />
-          <SideDrawer>
+          <SideDrawer show={drawerIsOpen}>
             <nav className="main-navigation__drawer-nav">
               <NavLinks />
             </nav>

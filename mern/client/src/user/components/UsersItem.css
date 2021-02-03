@@ -40,9 +40,10 @@
 .user-item:active h2,
 .user-item:hover h3,
 .user-item:active h3 {
-  color: #292929;
+  color: #5c4f4e;
 }
 
 .user-item__info h3 {
   margin: 0;
+  color: #292929;
 }
