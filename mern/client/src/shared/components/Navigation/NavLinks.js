@@ -11,7 +11,7 @@ const NavLinks = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink exact to="/u1/places">
+        <NavLink exact to="/p1/places">
           MY PLACES
         </NavLink>
       </li>
