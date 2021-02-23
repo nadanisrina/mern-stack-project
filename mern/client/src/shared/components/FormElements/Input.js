@@ -25,24 +25,22 @@ const inputReducer = (state, action) => {
 const Input = (props) => {
   //note useReducer param consistof callback dispatch and initial state
   const [inputState, dispatch] = useReducer(inputReducer, {
-    value: "",
-    isValid: false,
-    isTouched: false,
+    value: props.value || "",
+    isValid: props.valid || false,
+    isTouched:  false,
   });
-
   const { id, onInput } = props;
   const { value, isValid } = inputState;
-
   useEffect(() => {
-    props.onInput(props.id, inputState.value, inputState.isValid);
-  }, [props, inputState]);
+    onInput(id, value, isValid);
+  }, [id, onInput, value, isValid]);
 
   const changeHandler = (e) => {
     //note dispatch param consist of action
     dispatch({ type: "CHANGE", val: e.target.value, validators: props.validators });
   };
-  const touchHandler = (e) => {
-    dispatch({ type: "TOUCH", isTouched: true });
+  const touchHandler = () => {
+    dispatch({ type: "TOUCH" });
   };
   //1. element rendered as
   const element =

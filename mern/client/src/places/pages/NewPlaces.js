@@ -1,8 +1,9 @@
 import React, { useCallback, useReducer } from "react";
-import "./NewPlaces.css";
+import "./PlaceForm.css";
 import Input from "../../shared/components/FormElements/Input";
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from "../../shared/util/validators";
 import Card from "../../shared/components/UIElements/Card/Card";
+import Button from "../../shared/components/FormElements/Button";
 const formReducer = (state, action) => {
   switch (action.type) {
     case "INPUT_CHANGE":
@@ -28,7 +29,7 @@ const formReducer = (state, action) => {
       break;
 
     default:
-      break;
+      return state;
   }
 };
 const NewPlaces = () => {
@@ -42,27 +43,33 @@ const NewPlaces = () => {
         value: "",
         isValid: false,
       },
+      address: {
+        value: "",
+        isValid: false,
+      },
     },
+    //all inputs validity
     isValid: false,
   });
-  const inputHandler = useCallback(
-    (id, value, isValid) => {
-      dispatch({
-        type: "INPUT_CHANGE",
-        InputId: id,
-        value: value,
-        isValid: isValid,
-      });
-    },
-    [dispatch]
-  );
+  const inputHandler = useCallback((id, value, isValid) => {
+    dispatch({
+      type: "INPUT_CHANGE",
+      InputId: id,
+      value: value,
+      isValid: isValid,
+    });
+  }, []);
+  const placeSubmitHandler = (e) => {
+    e.preventDefault();
+    console.log(formState.inputs); //send this to the backend
+  };
   return (
-    <form>
-      <Card className="col-lg-6 offset">
+    <form className="place-form">
+      <Card className="place-form col-lg-6 offset">
         <Input
           id="title"
-          type="text"
           label="Title"
+          type="text"
           element="input"
           validators={[VALIDATOR_REQUIRE()]}
           errorText="Please enter a valid title"
@@ -70,13 +77,25 @@ const NewPlaces = () => {
         />
         <Input
           id="description"
-          type="description"
           label="Description"
+          type="text"
           element="textarea"
           validators={[VALIDATOR_MINLENGTH(5)]}
           errorText="Please enter a valid description (at least 5 characters)."
           onInput={inputHandler}
         />
+        <Input
+          id="address"
+          label="Address"
+          type="text"
+          element="input"
+          validators={[VALIDATOR_REQUIRE(5)]}
+          errorText="Please enter a valid address"
+          onInput={inputHandler}
+        />
+        <Button type="submit" disabled={!formState.isValid}>
+          Add
+        </Button>
       </Card>
     </form>
   );
