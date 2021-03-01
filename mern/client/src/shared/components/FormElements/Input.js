@@ -23,6 +23,7 @@ const inputReducer = (state, action) => {
 };
 
 const Input = (props) => {
+  console.log("propsprops", props);
   //note useReducer param consistof callback dispatch and initial state
   const [inputState, dispatch] = useReducer(inputReducer, {
     value: props.initialValue || "",

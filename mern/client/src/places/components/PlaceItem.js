@@ -7,8 +7,14 @@ import Modal from "../../shared/components/UIElements/Modal/Modal";
 import Map from "../../shared/components/UIElements/Map/Map";
 const PlaceItem = (props) => {
   const [showMap, setShowMap] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
   const openMapHandler = () => setShowMap(true);
   const closeMapHandler = () => setShowMap(false);
+
+  const confirmDeleteHandler = () => {
+    console.log("deleting...");
+  };
 
   return (
     <Fragment>
@@ -22,6 +28,24 @@ const PlaceItem = (props) => {
         <div className="map-container">
           <Map center={props.coordinates} zoom={16} />
         </div>
+      </Modal>
+      <Modal
+        show={showConfirmModal}
+        onCancel={() => setShowConfirmModal(false)}
+        header="Are You Sure"
+        contentClass="place-item__modal-content"
+        footerClass="place-item__modal-actions"
+        footer={
+          <React.Fragment>
+            <Button inverse onClick={() => setShowConfirmModal(false)}>
+              CANCEL
+            </Button>
+            <Button danger onClick={confirmDeleteHandler}>
+              DELETE
+            </Button>
+          </React.Fragment>
+        }>
+        <div className="map-container"></div>
       </Modal>
       <li className="place-item">
         <Card className="place-item__content">
@@ -38,7 +62,7 @@ const PlaceItem = (props) => {
               VIEW ON MAP
             </Button>
             <Button to={`/places/${props.id}`}>EDIT</Button>
-            <Button>DELETE</Button>
+            <Button onClick={() => setShowConfirmModal(true)}>DELETE</Button>
           </div>
         </Card>
       </li>
