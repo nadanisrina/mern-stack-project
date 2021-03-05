@@ -6,8 +6,12 @@ import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
-
+//redux
+import { loginUser } from "../../store/action";
+import { useDispatch } from "react-redux";
 const Auth = () => {
+  const dispatchLogin = useDispatch();
+
   //login or sign up mode
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [formState, inputHandler, setFormData] = useForm(
@@ -48,7 +52,9 @@ const Auth = () => {
   };
   const authSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(formState.inputs);
+    dispatchLogin(loginUser(true));
+
+    // console.log(formState.inputs);
   };
   return (
     <Card className="authentication">

@@ -2,24 +2,31 @@ import React from "react";
 
 import "./NavLinks.css";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 const NavLinks = () => {
+  const isLogin = useSelector((state) => state.Login.login);
   return (
     <ul className="nav-links">
-      <li>
-        <NavLink exact to="/">
-          ALL USERS
-        </NavLink>
-      </li>
-      <li>
-        <NavLink exact to="/p1/places">
-          MY PLACES
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/places/new" exact>
-          ADD PLACE
-        </NavLink>
-      </li>
+      {isLogin && (
+        <React.Fragment>
+          <li>
+            <NavLink exact to="/">
+              ALL USERS
+            </NavLink>
+          </li>
+          <li>
+            <NavLink exact to="/p1/places">
+              MY PLACES
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/places/new" exact>
+              ADD PLACE
+            </NavLink>
+          </li>
+        </React.Fragment>
+      )}
+
       <li>
         <NavLink to="/auth" exact>
           AUTHENTICATE

@@ -5,6 +5,7 @@ const formReducer = (state, action) => {
     case "INPUT_CHANGE":
       let formIsValid = true;
       for (const inputId in state.inputs) {
+        //if outside login mode, name will be undefined
         if (!state.inputs[inputId]) {
           continue;
         }
