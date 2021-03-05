@@ -5,7 +5,10 @@ import Button from "../../shared/components/FormElements/Button";
 import Modal from "../../shared/components/UIElements/Modal/Modal";
 //map
 import Map from "../../shared/components/UIElements/Map/Map";
+//redux
+import { useSelector } from "react-redux";
 const PlaceItem = (props) => {
+  const isLoggedIn = useSelector((state) => state.Login.login);
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -61,8 +64,12 @@ const PlaceItem = (props) => {
             <Button onClick={openMapHandler} inverse>
               VIEW ON MAP
             </Button>
-            <Button to={`/places/${props.id}`}>EDIT</Button>
-            <Button onClick={() => setShowConfirmModal(true)}>DELETE</Button>
+            {isLoggedIn && (
+              <React.Fragment>
+                <Button to={`/places/${props.id}`}>EDIT</Button>
+                <Button onClick={() => setShowConfirmModal(true)}>DELETE</Button>
+              </React.Fragment>
+            )}
           </div>
         </Card>
       </li>

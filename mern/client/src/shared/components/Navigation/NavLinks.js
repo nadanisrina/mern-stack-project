@@ -26,12 +26,22 @@ const NavLinks = () => {
           </li>
         </React.Fragment>
       )}
-
-      <li>
-        <NavLink to="/auth" exact>
-          AUTHENTICATE
-        </NavLink>
-      </li>
+      {/* if system not yet login */}
+      {!isLogin && (
+        <li>
+          <NavLink to="/auth" exact>
+            AUTHENTICATE
+          </NavLink>
+        </li>
+      )}
+      {/* if system have login */}
+      {isLogin && (
+        <li>
+          <NavLink to="/auth" exact>
+            LOGOUT
+          </NavLink>
+        </li>
+      )}
     </ul>
   );
 };
