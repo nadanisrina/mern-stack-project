@@ -34,7 +34,10 @@ router.get("/:pid", (req, res, next) => {
   });
   if (!place) {
     //return and will be not excuted the next line of code
-    return res.status(404).json({ message: "Could not find a place for the provided id" });
+    const error = new Error("Could not find a place for provided Id");
+    error.code = 404;
+    throw error;
+    // return res.status(404).json({ message: "Could not find a placefor provided user id." });
   }
   //encoded, and send back
   res.json({ place }); // {place} => {place : place}
@@ -43,12 +46,16 @@ router.get("/:pid", (req, res, next) => {
 router.get("/user/:uid", (req, res, next) => {
   console.log("userId", req.params);
   const userId = req.params.uid;
-  const place = DUMMY_PLACES.filter((u) => {
-    return u.creator === userId;
+  const place = DUMMY_PLACES.filter((p) => {
+    return p.creator === userId;
   });
+
   if (place.length === 0) {
     //return and will be not excuted the next line of code
-    return res.status(404).json({ message: "Could not find a place for the provided user id" });
+    // return res.status(404).json({ message: "Could not find a place for the provided user id" });
+    const error = new Error("Could not find a place for provided user id");
+    error.code = 404;
+    return next(error);
   }
   res.json({ place });
 });

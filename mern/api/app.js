@@ -1,18 +1,17 @@
 const express = require("express");
 
-//import route
-const placeRoute = require("./routes/places-routes");
-//init express
+const placesRoutes = require("./routes/places-routes");
+
 const app = express();
 
-//register route as middleware
-app.use("/api/places", placeRoute);
-app.use((error, res, req, next) => {
+app.use("/api/places", placesRoutes); // => /api/places...
+
+app.use((error, req, res, next) => {
   if (res.headerSent) {
-    return next(error);
+    return next(error); //chain to next middleware
   }
   res.status(error.code || 500);
-  res.json({ message: error.message || "An error occurred" });
+  res.json({ message: error.message || "An unknown error occurred!" });
 });
 
-app.listen(5000);
+app.listen(4000);
