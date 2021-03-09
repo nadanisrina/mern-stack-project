@@ -1,6 +1,6 @@
-const express = require("express");
+import express from "express";
 
-const placesRoutes = require("./routes/places-routes");
+import { placesRoutes } from "./routes/places-routes.js";
 
 const app = express();
 
