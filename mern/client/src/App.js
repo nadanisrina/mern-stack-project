@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
-import "./App.css";
+import "./index.css";
 //pages
 import Users from "./user/pages/Users";
 import NewPlaces from "./places/pages/NewPlaces";
@@ -10,7 +10,6 @@ import UpdatePlace from "./places/pages/UpdatePlace";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import Auth from "./user/pages/Auth";
 //redux
-import { Provider } from "react-redux";
 import { useSelector } from "react-redux";
 
 function App() {
@@ -24,7 +23,7 @@ function App() {
         <Route exact path="/places/new" component={NewPlaces} />
         <Route exact path="/places/:placeId" component={UpdatePlace} />
         <Route exact path="/auth" component={Auth} />
-        <Redirect to="/" />
+        <Redirect to="/auth" />
       </Switch>
     );
   } else {
@@ -33,7 +32,7 @@ function App() {
         <Route exact path="/" component={Users} />
         <Route exact path="/:userId/places" component={UserPlaces} />
         <Route exact path="/auth" component={Auth} />
-        <Redirect to="/" />
+        <Redirect to="/auth" />
       </Switch>
     );
   }
