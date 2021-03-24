@@ -1,4 +1,5 @@
 import HttpError from "../models/http-error.js";
+import { v4 as uuid } from "uuid";
 const DUMMY_PLACES = [
   {
     id: "p1",
@@ -38,18 +39,50 @@ const getPlaceById = (req, res, next) => {
   res.json({ place }); // {place} => {place : place}
 };
 
-const getPlaceByUserId = (req, res, next) => {
-  console.log("userId", req.params);
+const getPlacesByUserId = (req, res, next) => {
   const userId = req.params.uid;
   const place = DUMMY_PLACES.filter((p) => {
     return p.creator === userId;
   });
 
-  if (place.length === 0) {
+  if (!place || place.length === 0) {
     //return and will be not excuted the next line of code
     // return res.status(404).json({ message: "Could not find a place for the provided user id" });
     return next(new HttpError("Could not find a place for provided user id", 404));
   }
   res.json({ place });
 };
-export { getPlaceById, getPlaceByUserId };
+
+const createPlace = () => {
+  const { title, description, coordinates, address, creator } = req.body;
+  const createPlace = {
+    id: uuid(),
+    title,
+    description,
+    coordinates: coordinates,
+    address,
+    creator,
+  };
+  DUMMY_PLACES.push(createPlace);
+  res.status(201).json({ place: createPlace });
+};
+
+const updatePlaceById = (req, res, next) => {
+  const { title, description } = req.body;
+  const placeId = req.params.pid;
+  const updatePlace = { ...DUMMY_PLACES.find((p) => p.id === placeId) };
+  const placeIndex = DUMMY_PLACES.findIndex((p) => p.id === placeId);
+  updatePlace.title = title;
+  updatePlace.description = description;
+  DUMMY_PLACES[placeIndex] = updatePlace;
+
+  res.status(200).json({ place: updatePlace });
+};
+
+const deletePlaceById = (req, res, next) => {
+  const placeId = req.params.pid;
+  const deletePlace = DUMMY_PLACES.filter((p) => p.id !== placeId.id);
+  res.status(200).json({ place: deletePlace });
+};
+
+export { getPlaceById, getPlacesByUserId, createPlace, updatePlaceById, deletePlaceById };
