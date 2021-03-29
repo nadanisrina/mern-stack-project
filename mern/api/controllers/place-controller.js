@@ -1,5 +1,7 @@
 import HttpError from "../models/http-error.js";
 import { v4 as uuid } from "uuid";
+import validator from "express-validator"
+const { validationResult } = validator
 const DUMMY_PLACES = [
   {
     id: "p1",
@@ -53,13 +55,18 @@ const getPlacesByUserId = (req, res, next) => {
   res.json({ place });
 };
 
-const createPlace = () => {
+const createPlace = (req, res, next) => {
+  const errors = validationResult(req)
+  if(!errors.isEmpty()){
+    throw new HttpError('Invalid inputs passed, please check your data.',422)
+  }
   const { title, description, coordinates, address, creator } = req.body;
+
   const createPlace = {
     id: uuid(),
     title,
     description,
-    coordinates: coordinates,
+    location: coordinates,
     address,
     creator,
   };
@@ -68,6 +75,11 @@ const createPlace = () => {
 };
 
 const updatePlaceById = (req, res, next) => {
+  const errors = validationResult(req)
+  if(!errors.isEmpty()){
+    console.log(errors)
+    throw new HttpError('Invalid inputs passed, please check your data.',422)
+  }
   const { title, description } = req.body;
   const placeId = req.params.pid;
   const updatePlace = { ...DUMMY_PLACES.find((p) => p.id === placeId) };
@@ -81,6 +93,10 @@ const updatePlaceById = (req, res, next) => {
 
 const deletePlaceById = (req, res, next) => {
   const placeId = req.params.pid;
+  const findIdPlace = DUMMY_PLACES.find(p => p.id === placeId)
+  if(!findIdPlace){
+    throw new HttpError("Could not find a place for that id.", 404)
+  }
   const deletePlace = DUMMY_PLACES.filter((p) => p.id !== placeId.id);
   res.status(200).json({ place: deletePlace });
 };

@@ -1,11 +1,13 @@
 import express from "express";
 
-import * as router from "./routes/places-routes.js";
-const app = express();
+import * as placeRouter from "./routes/places-routes.js";
+import * as userRouter from "./routes/users-routes.js";
 
+const app = express();
 app.use(express.json());
-app.use("/api/places", router.placeRouter); // => /api/places...
-app.use("/api/user", router.userRouter); // => /api/places...
+app.use("/api/places", placeRouter.router); // => /api/places...
+app.use("/api/users", userRouter.router); // => /api/places...
+
 app.use((error, req, res, next) => {
   if (res.headerSent) {
     return next(error); //chain to next middleware
